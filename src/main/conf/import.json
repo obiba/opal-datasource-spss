@@ -1,0 +1,32 @@
+{
+  "$schema": "http://json-schema.org/schema#",
+  "type": "object",
+  "properties": {
+    "file": {
+      "type": "string",
+      "title": "Data File",
+      "format": "file",
+      "description": "Data in SPSS format are packaged in a file with suffix .sav.",
+      "fileFormats": [".sav"]
+    },
+    "locale": {
+      "title": "Locale",
+      "type": "string",
+      "default": "en"
+    },
+    "charset": {
+      "title": "Character Set",
+      "type": "string",
+      "default": "ISO-8859-1"
+    },
+    "entity_type": {
+      "title": "Entity Type",
+      "type": "string",
+      "default": "Participant",
+      "description": "Specify what these data relate to (Participant, Instrument, Area etc.)"
+    }
+  },
+  "required": [
+    "file"
+  ]
+}
