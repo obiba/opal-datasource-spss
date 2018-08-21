@@ -1,5 +1,4 @@
-Opal SPSS Datasource Plugin
-
+# Opal SPSS Plugin [![Build Status](https://travis-ci.org/obiba/opal-datasource-spss.svg?branch=master)](https://travis-ci.org/obiba/opal-datasource-spss)
 
 [Opal](https://github.com/obiba/opal) is OBiBa’s core database application for biobanks or epidemiological studies.
 
