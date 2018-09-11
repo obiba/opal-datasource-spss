@@ -44,14 +44,7 @@
       <artifactId>obiba-core</artifactId>
       <version>${obiba-commons.version}</version>
     </dependency>
-
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>${junit.version}</version>
-      <scope>test</scope>
-    </dependency>
-
+    
     <dependency>
       <groupId>org.opendatafoundation</groupId>
       <artifactId>spssreader</artifactId>
