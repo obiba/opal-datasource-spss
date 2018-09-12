@@ -11,7 +11,7 @@
   <properties>
     <maven.compiler.target>1.8</maven.compiler.target>
     <maven.compiler.source>1.8</maven.compiler.source>
-    <spssreader.version>1.2.1</spssreader.version>
+    <spssreader.version>1.2.2</spssreader.version>
     <junit.version>4.12</junit.version>
     <fest.version>2.0M10</fest.version>
 
