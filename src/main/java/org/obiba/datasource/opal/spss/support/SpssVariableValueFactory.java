@@ -10,8 +10,11 @@
 package org.obiba.datasource.opal.spss.support;
 
 import org.obiba.magma.ValueType;
+import org.obiba.magma.type.DecimalType;
+import org.obiba.magma.type.IntegerType;
 import org.opendatafoundation.data.FileFormatInfo;
 import org.opendatafoundation.data.spss.SPSSFileException;
+import org.opendatafoundation.data.spss.SPSSNumericVariable;
 import org.opendatafoundation.data.spss.SPSSVariable;
 
 import java.util.List;
@@ -25,8 +28,7 @@ public class SpssVariableValueFactory extends SpssValueFactory {
   @Override
   protected String getValue(int index) {
     try {
-      String value = spssVariable.getValueAsString(index, new FileFormatInfo(FileFormatInfo.Format.ASCII));
-      return SpssVariableValueConverter.convert(spssVariable, value);
+      return SpssVariableValueConverter.convert(spssVariable, index);
     } catch(SPSSFileException | SpssValueConversionException e) {
       String variableName = spssVariable.getName();
       throw new SpssDatasourceParsingException("Failed to retieve variable value.", "SpssFailedToCreateVariable",

@@ -47,7 +47,7 @@
           org.obiba.datasource:*
         </include>
         <include>
-          org.opendatafoundation.data:*
+          org.opendatafoundation:spssreader:*
         </include>
       </includes>
     </dependencySet>

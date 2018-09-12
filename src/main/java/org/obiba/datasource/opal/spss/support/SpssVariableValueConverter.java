@@ -11,6 +11,9 @@
 package org.obiba.datasource.opal.spss.support;
 
 import com.google.common.base.Strings;
+import org.opendatafoundation.data.FileFormatInfo;
+import org.opendatafoundation.data.spss.SPSSFileException;
+import org.opendatafoundation.data.spss.SPSSNumericVariable;
 import org.opendatafoundation.data.spss.SPSSStringVariable;
 import org.opendatafoundation.data.spss.SPSSVariable;
 
@@ -18,7 +21,27 @@ public class SpssVariableValueConverter {
 
   private SpssVariableValueConverter() {}
 
-  public static String convert(SPSSVariable spssVariable, String value) throws SpssValueConversionException {
+  static String convert(SPSSVariable spssVariable, int index) throws SpssValueConversionException, SPSSFileException {
+    if (spssVariable instanceof SPSSNumericVariable) {
+      SPSSNumericVariable spssNumVariable = (SPSSNumericVariable) spssVariable;
+      SpssNumericDataType spssNumericDataType = SpssVariableTypeMapper.getSpssNumericDataType(spssNumVariable);
+      switch (spssNumericDataType) {
+        case COMMA: // comma
+        case DOLLAR: // dollar
+        case DOT: // dot
+        case FIXED: // fixed format (default)
+        case SCIENTIFIC:
+          Double doubleValue = spssNumVariable.getValue(index);
+          return doubleValue.isNaN() ? "" : "" + doubleValue;
+      }
+
+    }
+
+    return convert(spssVariable, spssVariable.getValueAsString(index, new FileFormatInfo(FileFormatInfo.Format.ASCII)));
+  }
+
+
+  static String convert(SPSSVariable spssVariable, String value) throws SpssValueConversionException {
     String trimmedValue = value.trim();
     if(Strings.isNullOrEmpty(trimmedValue) || (spssVariable instanceof SPSSStringVariable)) return value;
 
