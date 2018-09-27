@@ -196,6 +196,41 @@
     </repository>
   </repositories>
 
+  <distributionManagement>
+    <repository>
+      <id>obiba-bintray</id>
+      <url>https://api.bintray.com/obiba/maven/</url>
+    </repository>
+    <snapshotRepository>
+      <id>obiba-artifactory</id>
+      <url>https://obiba.jfrog.io/obiba/libs-snapshot</url>
+    </snapshotRepository>
+  </distributionManagement>
+
+  <scm>
+    <connection>scm:git:https://github.com/obiba/opal-datasource-spss.git</connection>
+    <developerConnection>scm:git:https://github.com/obiba/opal-datasource-spss.git</developerConnection>
+    <url>https://github.com/obiba/opal-datasource-spss</url>
+  </scm>
+
+  <issueManagement>
+    <system>GitHub</system>
+    <url>https://github.com/obiba/opal-datasource-spss/issues</url>
+  </issueManagement>
+
+  <ciManagement>
+    <system>Travis</system>
+    <url>https://travis-ci.org/obiba/opal-datasource-spss</url>
+  </ciManagement>
+
+  <mailingLists>
+    <mailingList>
+      <name>OBiBa Users</name>
+      <post>obiba-users@googlegroups.com</post>
+      <archive>https://groups.google.com/forum/?fromgroups#!forum/obiba-users</archive>
+    </mailingList>
+  </mailingLists>
+
   <licenses>
     <license>
       <name>GNU Public License version 3</name>
