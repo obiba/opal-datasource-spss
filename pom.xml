@@ -18,6 +18,7 @@
     <obiba-commons.version>1.11.0</obiba-commons.version>
 
     <!-- maven plugins -->
+    <github-release-plugin.version>1.2.0</github-release-plugin.version>
     <maven-assembly-plugin.version>3.0.0</maven-assembly-plugin.version>
     <maven-compiler-plugin.version>3.1</maven-compiler-plugin.version>
     <maven-dependency-plugin.version>3.1.0</maven-dependency-plugin.version>
@@ -170,6 +171,48 @@
     </plugins>
   </build>
 
+  <profiles>
+    <profile>
+      <!-- A profile for the builds performed by the continuous integration server -->
+      <id>release</id>
+        <build>
+          <plugins>
+
+            <!-- Upload packages to github release -->
+            <plugin>
+              <groupId>de.jutzig</groupId>
+              <artifactId>github-release-plugin</artifactId>
+              <version>${github-release-plugin.version}</version>
+              <executions>
+                <execution>
+                  <id>make-release</id>
+                  <phase>deploy</phase>
+                  <goals>
+                    <goal>release</goal>
+                  </goals>
+                  <configuration>
+                    <releaseName>${project.version}</releaseName>
+                    <tag>${project.version}</tag>
+                    <repositoryId>obiba/${project.name}</repositoryId>
+                    <artifact>donotuploadjar</artifact>
+                    <fileSets>
+                      <fileSet>
+                        <directory>${basedir}/target</directory>
+                        <includes>
+                          <include>*.zip</include>
+                        </includes>
+                      </fileSet>
+                    </fileSets>
+                  </configuration>
+                </execution>
+              </executions>
+            </plugin>
+
+          </plugins>
+        </build>
+    </profile>
+  </profiles>
+
   <repositories>
     <repository>
       <id>obiba-releases</id>
@@ -194,17 +237,6 @@
       </snapshots>
     </repository>
   </repositories>
-
-  <distributionManagement>
-    <repository>
-      <id>obiba-bintray</id>
-      <url>https://api.bintray.com/obiba/maven/</url>
-    </repository>
-    <snapshotRepository>
-      <id>obiba-artifactory</id>
-      <url>https://obiba.jfrog.io/obiba/libs-snapshot</url>
-    </snapshotRepository>
-  </distributionManagement>
 
   <scm>
     <connection>scm:git:https://github.com/obiba/opal-datasource-spss.git</connection>
