@@ -2,8 +2,8 @@
 
 [Opal](https://github.com/obiba/opal) is OBiBa’s core database application for biobanks or epidemiological studies.
 
-* Have a bug or a question? Please create an issue on [GitHub](https://github.com/obiba/opal-search-es/issues).
-* Continuous integration is on [Travis](https://travis-ci.org/obiba/opal-search-es).
+* Have a bug or a question? Please create an issue on [GitHub](https://github.com/obiba/opal-datasource-spss/issues).
+* Continuous integration is on [Travis](https://travis-ci.org/obiba/opal-datasource-spss).
 
 ## Mailing list
 
