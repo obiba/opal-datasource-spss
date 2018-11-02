@@ -14,8 +14,8 @@
     <junit.version>4.12</junit.version>
     <fest.version>2.0M10</fest.version>
 
-    <opal.version>2.12-SNAPSHOT</opal.version>
-    <obiba-commons.version>1.11.0</obiba-commons.version>
+    <opal.version>2.13-SNAPSHOT</opal.version>
+    <obiba-commons.version>1.12-SNAPSHOT</obiba-commons.version>
 
     <!-- maven plugins -->
     <github-release-plugin.version>1.2.0</github-release-plugin.version>
@@ -25,6 +25,7 @@
     <maven-deploy-plugin.version>2.8.1</maven-deploy-plugin.version>
     <maven-resources-plugin.version>3.0.2</maven-resources-plugin.version>
     <maven-source-plugin.version>2.2.1</maven-source-plugin.version>
+    <maven-surefire-plugin.version>2.16</maven-surefire-plugin.version>
 
     <package.name>opal-datasource-spss-dist-${project.version}</package.name>
     <dist.location>${basedir}/target/${package.name}-dist/${package.name}</dist.location>
@@ -45,7 +46,7 @@
       <artifactId>obiba-core</artifactId>
       <version>${obiba-commons.version}</version>
     </dependency>
-    
+
     <dependency>
       <groupId>org.opendatafoundation</groupId>
       <artifactId>spssreader</artifactId>
@@ -176,6 +177,15 @@
         <version>${maven-deploy-plugin.version}</version>
         <configuration>
           <skip>true</skip>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>${maven-surefire-plugin.version}</version>
+        <configuration>
+          <useSystemClassLoader>false</useSystemClassLoader>
         </configuration>
       </plugin>
 
