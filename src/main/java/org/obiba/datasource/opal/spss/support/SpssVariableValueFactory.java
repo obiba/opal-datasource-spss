@@ -28,7 +28,7 @@ public class SpssVariableValueFactory extends SpssValueFactory {
   @Override
   protected String getValue(int index) {
     try {
-      return SpssVariableValueConverter.convert(spssVariable, index);
+      return SpssVariableValueConverter.getInstance().convert(spssVariable, index);
     } catch(SPSSFileException | SpssValueConversionException e) {
       String variableName = spssVariable.getName();
       throw new SpssDatasourceParsingException("Failed to retieve variable value.", "SpssFailedToCreateVariable",
