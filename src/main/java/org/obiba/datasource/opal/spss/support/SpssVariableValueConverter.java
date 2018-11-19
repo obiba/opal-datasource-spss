@@ -17,11 +17,23 @@ import org.opendatafoundation.data.spss.SPSSNumericVariable;
 import org.opendatafoundation.data.spss.SPSSStringVariable;
 import org.opendatafoundation.data.spss.SPSSVariable;
 
+import java.text.NumberFormat;
+
 public class SpssVariableValueConverter {
 
-  private SpssVariableValueConverter() {}
+  private final NumberFormat fmt = NumberFormat.getInstance();
 
-  static String convert(SPSSVariable spssVariable, int index) throws SpssValueConversionException, SPSSFileException {
+  private SpssVariableValueConverter() {
+    fmt.setGroupingUsed(false);
+    fmt.setMaximumIntegerDigits(999);
+    fmt.setMaximumFractionDigits(999);
+  }
+
+  static SpssVariableValueConverter getInstance() {
+    return new SpssVariableValueConverter();
+  }
+
+  String convert(SPSSVariable spssVariable, int index) throws SpssValueConversionException, SPSSFileException {
     if (spssVariable instanceof SPSSNumericVariable) {
       SPSSNumericVariable spssNumVariable = (SPSSNumericVariable) spssVariable;
       SpssNumericDataType spssNumericDataType = SpssVariableTypeMapper.getSpssNumericDataType(spssNumVariable);
@@ -32,7 +44,7 @@ public class SpssVariableValueConverter {
         case FIXED: // fixed format (default)
         case SCIENTIFIC:
           Double doubleValue = spssNumVariable.getValue(index);
-          return doubleValue.isNaN() ? "" : "" + doubleValue;
+          return doubleValue.isNaN() ? "" : fmt.format(doubleValue);
       }
 
     }
@@ -41,7 +53,7 @@ public class SpssVariableValueConverter {
   }
 
 
-  static String convert(SPSSVariable spssVariable, String value) throws SpssValueConversionException {
+  private String convert(SPSSVariable spssVariable, String value) throws SpssValueConversionException {
     String trimmedValue = value.trim();
     if(Strings.isNullOrEmpty(trimmedValue) || (spssVariable instanceof SPSSStringVariable)) return value;
 
