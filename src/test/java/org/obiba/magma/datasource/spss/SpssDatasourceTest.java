@@ -171,7 +171,7 @@ public class SpssDatasourceTest {
 
     ValueTable valueTable = ds.getValueTable("DatabaseTest");
 
-    Set<VariableEntity> variableEntities = valueTable.getVariableEntities();
+    List<VariableEntity> variableEntities = valueTable.getVariableEntities();
     assertThat(variableEntities).hasSize(200);
   }
 
