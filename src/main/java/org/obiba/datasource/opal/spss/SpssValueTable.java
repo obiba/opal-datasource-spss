@@ -9,20 +9,13 @@
  */
 package org.obiba.datasource.opal.spss;
 
-import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import org.obiba.datasource.opal.spss.support.SpssDatasourceParsingException;
 import org.obiba.datasource.opal.spss.support.SpssVariableTypeMapper;
 import org.obiba.datasource.opal.spss.support.SpssVariableValueFactory;
 import org.obiba.datasource.opal.spss.support.SpssVariableValueSourceFactory;
-import org.obiba.magma.Datasource;
-import org.obiba.magma.Disposable;
-import org.obiba.magma.NoSuchValueSetException;
-import org.obiba.magma.Timestamps;
-import org.obiba.magma.Value;
-import org.obiba.magma.ValueSet;
-import org.obiba.magma.ValueType;
-import org.obiba.magma.VariableEntity;
+import org.obiba.magma.*;
 import org.obiba.magma.support.AbstractValueTable;
 import org.obiba.magma.support.DatasourceParsingException;
 import org.obiba.magma.support.VariableEntityBean;
@@ -36,13 +29,7 @@ import org.slf4j.LoggerFactory;
 import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
 import java.io.IOException;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class SpssValueTable extends AbstractValueTable implements Disposable {
 
@@ -65,7 +52,7 @@ public class SpssValueTable extends AbstractValueTable implements Disposable {
     this.idVariable = idVariable == null || idVariable.trim().isEmpty() ? null : idVariable;
     loadMetadata();
     if (this.idVariable != null) {
-      for (int i = 0; i<spssFile.getVariableCount(); i++) {
+      for (int i = 0; i < spssFile.getVariableCount(); i++) {
         SPSSVariable var = spssFile.getVariable(i);
         if (var.getName().equals(idVariable)) {
           idVariableIndex = i;
@@ -109,7 +96,7 @@ public class SpssValueTable extends AbstractValueTable implements Disposable {
 
   public boolean isMultilines() {
     // either detected or configured
-    return ((SpssVariableEntityProvider)getVariableEntityProvider()).isMultilines() || getSpssDatasource().isMultilines();
+    return ((SpssVariableEntityProvider) getVariableEntityProvider()).isMultilines() || getSpssDatasource().isMultilines();
   }
 
   //
@@ -125,13 +112,13 @@ public class SpssValueTable extends AbstractValueTable implements Disposable {
   }
 
   private void loadMetadata() {
-    if(spssFile.isMetadataLoaded) {
+    if (spssFile.isMetadataLoaded) {
       return;
     }
 
     try {
       spssFile.loadMetadata();
-    } catch(Exception e) {
+    } catch (Exception e) {
       String fileName = spssFile.file.getName();
       throw new DatasourceParsingException("Failed load meta data in file " + fileName, e, "SpssFailedToLoadMetadata",
           fileName);
@@ -140,10 +127,10 @@ public class SpssValueTable extends AbstractValueTable implements Disposable {
 
   @Override
   public void dispose() {
-    if(spssFile != null) {
+    if (spssFile != null) {
       try {
         spssFile.close();
-      } catch(IOException e) {
+      } catch (IOException e) {
         log.warn("Error occurred while closing SPSS file: {}", e.getMessage());
       }
     }
@@ -160,7 +147,7 @@ public class SpssValueTable extends AbstractValueTable implements Disposable {
 
     private final int idVariableIndex;
 
-    private Set<VariableEntity> variableEntities;
+    private List<VariableEntity> variableEntities;
 
     boolean multilines = false;
 
@@ -182,8 +169,8 @@ public class SpssValueTable extends AbstractValueTable implements Disposable {
 
     @NotNull
     @Override
-    public Set<VariableEntity> getVariableEntities() {
-      if(variableEntities == null) {
+    public List<VariableEntity> getVariableEntities() {
+      if (variableEntities == null) {
         loadData();
         variableEntities = getVariableEntitiesInternal();
       }
@@ -197,24 +184,24 @@ public class SpssValueTable extends AbstractValueTable implements Disposable {
       return multilines;
     }
 
-    private ImmutableSet<VariableEntity> getVariableEntitiesInternal() {
+    private List<VariableEntity> getVariableEntitiesInternal() {
       Collection<String> entityIdentifiers = new HashSet<>();
-      ImmutableSet.Builder<VariableEntity> entitiesBuilder = ImmutableSet.builder();
+      ImmutableList.Builder<VariableEntity> entitiesBuilder = ImmutableList.builder();
       SPSSVariable entityVariable = spssFile.getVariable(idVariableIndex);
       int numberOfObservations = entityVariable.getNumberOfObservations();
       ValueType valueType = SpssVariableTypeMapper.map(entityVariable);
 
-      for(int i = 1; i <= numberOfObservations; i++) {
+      for (int i = 1; i <= numberOfObservations; i++) {
         Value identifierValue = new SpssVariableValueFactory(Lists.newArrayList(i), entityVariable, valueType, true, false).create();
 
-        if(identifierValue.isNull()) {
+        if (identifierValue.isNull()) {
           throw new SpssDatasourceParsingException("Empty entity identifier found.", "SpssEmptyIdentifier",
               entityVariable.getName(), i).dataInfo(entityVariable.getName(), i);
         }
 
         String identifier = identifierValue.getValue().toString();
 
-        if(entityIdentifiers.contains(identifier)) {
+        if (entityIdentifiers.contains(identifier)) {
           multilines = true;
           entityToVariableIndex.get(identifier).add(i);
         } else {
@@ -228,17 +215,17 @@ public class SpssValueTable extends AbstractValueTable implements Disposable {
     }
 
     private void loadData() {
-      if(spssFile.isDataLoaded) {
+      if (spssFile.isDataLoaded) {
         return;
       }
 
       try {
-        if(!spssFile.isMetadataLoaded) {
+        if (!spssFile.isMetadataLoaded) {
           loadMetadata();
         }
 
         spssFile.loadData();
-      } catch(Exception e) {
+      } catch (Exception e) {
         String fileName = spssFile.file.getName();
         throw new DatasourceParsingException("Failed load data in file " + fileName, e, "SpssFailedToLoadData", fileName);
       }

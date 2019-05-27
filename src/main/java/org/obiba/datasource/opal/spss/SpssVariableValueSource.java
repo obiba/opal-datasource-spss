@@ -10,23 +10,11 @@
 package org.obiba.datasource.opal.spss;
 
 import org.obiba.datasource.opal.spss.support.SpssVariableValueFactory;
-import org.obiba.magma.AbstractVariableValueSource;
-import org.obiba.magma.Value;
-import org.obiba.magma.ValueSet;
-import org.obiba.magma.ValueType;
-import org.obiba.magma.Variable;
-import org.obiba.magma.VariableEntity;
-import org.obiba.magma.VariableValueSource;
-import org.obiba.magma.VectorSource;
+import org.obiba.magma.*;
 import org.opendatafoundation.data.spss.SPSSVariable;
 
 import javax.validation.constraints.NotNull;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.NoSuchElementException;
-import java.util.SortedSet;
+import java.util.*;
 
 public class SpssVariableValueSource extends AbstractVariableValueSource implements VariableValueSource, VectorSource {
 
@@ -37,7 +25,7 @@ public class SpssVariableValueSource extends AbstractVariableValueSource impleme
   private final Map<String, List<Integer>> identifierToVariableIndex;
 
   public SpssVariableValueSource(Variable variable, SPSSVariable spssVariable,
-      Map<String, List<Integer>> identifierToVariableIndex) {
+                                 Map<String, List<Integer>> identifierToVariableIndex) {
     this.variable = variable;
     this.spssVariable = spssVariable;
     this.identifierToVariableIndex = identifierToVariableIndex;
@@ -74,7 +62,7 @@ public class SpssVariableValueSource extends AbstractVariableValueSource impleme
   }
 
   @Override
-  public Iterable<Value> getValues(final SortedSet<VariableEntity> entities) {
+  public Iterable<Value> getValues(final List<VariableEntity> entities) {
     return () -> new ValuesIterator(entities);
   }
 
@@ -97,7 +85,7 @@ public class SpssVariableValueSource extends AbstractVariableValueSource impleme
 
     @Override
     public Value next() {
-      if(!hasNext()) {
+      if (!hasNext()) {
         throw new NoSuchElementException();
       }
 
