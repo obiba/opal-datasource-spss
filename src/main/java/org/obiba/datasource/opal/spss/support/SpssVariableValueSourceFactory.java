@@ -104,8 +104,9 @@ public class SpssVariableValueSourceFactory implements VariableValueSourceFactor
       for(String category : variable.categoryMap.keySet()) {
         SPSSVariableCategory spssCategory = variable.categoryMap.get(category);
         validate(category);
+        String catName = variable instanceof SPSSNumericVariable ? CharacterSetValidator.normalizeNumberString(category) : category;
         validate(spssCategory.label);
-        builder.addCategory(Category.Builder.newCategory(category)
+        builder.addCategory(Category.Builder.newCategory(catName)
             .addAttribute(addLabelAttribute(spssCategory.label))
             .missing(isCategoryValueMissingCode(variable, spssCategory)).build());
       }
