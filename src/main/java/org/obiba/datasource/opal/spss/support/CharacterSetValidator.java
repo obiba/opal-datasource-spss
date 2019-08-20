@@ -19,6 +19,12 @@ public final class CharacterSetValidator {
   private CharacterSetValidator() {
   }
 
+  public static String normalizeNumberString(String nb) {
+    String nid = nb.replaceAll(",",".").trim();
+    return nid.endsWith(".0") || nid.endsWith(".00") ?
+        nid.substring(0, nid.lastIndexOf(".0")) : nb;
+  }
+
   @SuppressWarnings("ConstantConditions")
   public static void validate(@Nullable String source) throws SpssInvalidCharacterException {
     if(Strings.isNullOrEmpty(source)) return;
