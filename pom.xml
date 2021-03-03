@@ -13,9 +13,9 @@
 
     <fest.version>2.0M10</fest.version>
     <junit.version>4.12</junit.version>
-    <magma.version>2.0.0</magma.version>
-    <opal.version>2.14-SNAPSHOT</opal.version>
-    <obiba-commons.version>1.12.0</obiba-commons.version>
+    <magma.version>2.1.2</magma.version>
+    <opal.version>4.0-SNAPSHOT</opal.version>
+    <obiba-commons.version>1.15.0</obiba-commons.version>
     <spssreader.version>1.2.2</spssreader.version>
 
     <!-- maven plugins -->
@@ -248,7 +248,7 @@
     <repository>
       <id>obiba-releases</id>
       <name>Obiba Maven Releases Repository</name>
-      <url>https://dl.bintray.com/obiba/maven</url>
+      <url>https://obiba.jfrog.io/obiba/libs-release</url>
       <releases>
         <enabled>true</enabled>
       </releases>
