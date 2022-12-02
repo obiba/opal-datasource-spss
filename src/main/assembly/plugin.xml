@@ -47,6 +47,9 @@
           org.obiba.datasource:*
         </include>
         <include>
+          org.obiba.magma:magma-datasource-spss:*
+        </include>
+        <include>
           org.opendatafoundation:spssreader:*
         </include>
       </includes>
